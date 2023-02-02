@@ -25,15 +25,25 @@ console.log(elemTestParagraph);
 //Отримати елементи, вкладені в елемент із класом main-header і вивести їх у консоль. Кожному з елементів присвоїти новий клас nav-item.
 
 const elemMainHeader = document.querySelector(".main-header");
-const childElemMainHeader = elemMainHeader.childNodes;
-console.log(childElemMainHeader);
-
-for(let i = 0; i < childElemMainHeader.length; i++) {
-  childElemMainHeader[i].className = 'nav-item';
-}
-console.log(childElemMainHeader);
+const getAllChildren = (element) => {
+  if (element.children.length === 0) return [element];
+  let allChildElements = [];
+  for (let i = 0; i < element.children.length; i++) {
+    let children = getAllChildren(element.children[i]);
+    if (children) allChildElements.push(...children);
+  }
+  allChildElements.push(element);
+  return allChildElements;
+};
+const allChildren = getAllChildren(elemMainHeader)
+for(let i = 0; i < allChildren.length; i++) {
+  allChildren[i].className = 'nav-item';
+  }
+console.log(getAllChildren(elemMainHeader));
 
 //Знайти всі елементи із класом section-title. Видалити цей клас у цих елементів.
-const elemSectionTitle = document.querySelector(".section-title");
-elemSectionTitle.classList.remove("section-title");
-console.log(elemSectionTitle.classList);
+const elemSectionTitle = document.querySelectorAll(".section-title");
+ elemSectionTitle.forEach((e) => {
+  e.classList.remove("section-title");
+});
+console.log(elemSectionTitle);
